@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+
+lib = File.expand_path(File.dirname(__FILE__) + '/../lib')
+$LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)
+
+require 'optparse'
+require 'cv_client'
+require 'highline/import'
+require 'cv_client/provider/cv/auth'
+require 'cv_client/provider/aws/auth'
+require 'yaml'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: cvc [--aws,--cloud-vertical]"
+
+  opts.on("-c", "--cloud-vertical", "Adds/Updates Cloud Vertical credentials") do |v|
+    options[:cv] = true
+  end
+  opts.on("-a", "--aws", "Adds/Updates AWS credentials") do |v|
+    options[:aws] = true
+  end  
+  opts.on("-a", "--aws", "Adds/Updates AWS credentials") do |v|
+    options[:aws] = true
+  end
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end    
+end.parse!
+
+CvClient::Provider::Cv::Auth.new.ask_for_and_save_credentials if options[:cv] or !CvClient::Provider::Cv::Auth.auth_key_file_exists?('cv')
+CvClient::Provider::Aws::Auth.new.ask_for_and_save_credentials if options[:aws]
+
+system("cvc_daemon stop")
+system("cvc_daemon start")
