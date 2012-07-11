@@ -16,7 +16,7 @@ Ruby 1.9.3
 
 Setup
 -----
-    gem install cv_client
+    gem install cv_collector
     run cvc --help for help
 	run cvc_daemon --help
 

@@ -4,10 +4,10 @@ lib = File.expand_path(File.dirname(__FILE__) + '/../lib')
 $LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)
 
 require 'optparse'
-require 'cv_client'
+require 'cv_collector'
 require 'highline/import'
-require 'cv_client/provider/cv/auth'
-require 'cv_client/provider/aws/auth'
+require 'cv_collector/provider/cv/auth'
+require 'cv_collector/provider/aws/auth'
 require 'yaml'
 
 options = {}
@@ -29,8 +29,8 @@ OptionParser.new do |opts|
   end    
 end.parse!
 
-CvClient::Provider::Cv::Auth.new.ask_for_and_save_credentials if options[:cv] or !CvClient::Provider::Cv::Auth.auth_key_file_exists?('cv')
-CvClient::Provider::Aws::Auth.new.ask_for_and_save_credentials if options[:aws]
+CvCollector::Provider::Cv::Auth.new.ask_for_and_save_credentials if options[:cv] or !CvCollector::Provider::Cv::Auth.auth_key_file_exists?('cv')
+CvCollector::Provider::Aws::Auth.new.ask_for_and_save_credentials if options[:aws]
 
 system("cvc_daemon stop")
 system("cvc_daemon start")

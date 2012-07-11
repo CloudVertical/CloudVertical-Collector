@@ -4,10 +4,10 @@ scripts = File.expand_path(File.dirname(__FILE__) + '/../scripts')
 lib = File.expand_path(File.dirname(__FILE__) + '/../lib')
 $LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)
 
-require 'cv_client'
+require 'cv_collector'
 require 'highline/import'
 require 'daemons'
-require 'cv_client/provider/aws/auth'
+require 'cv_collector/provider/aws/auth'
 
 options = {
   :app_name   => "cvc-daemon",

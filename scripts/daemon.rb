@@ -2,7 +2,7 @@ Signal.trap('CHLD', 'IGNORE')
 
 lib = File.expand_path(File.dirname(__FILE__) + '/../lib')
 $LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)
-require File.join(lib, 'cv_client')
+require File.join(lib, 'cv_collector')
 
 require 'yaml'
 require 'faraday'
@@ -19,24 +19,24 @@ API_URL = "https://resources.cloudvertical.com"
 loop do
 
 	components = [
-    CvClient::Provider::Aws::Billing,
-    CvClient::Provider::Aws::BillingProgramatic,
-    CvClient::Provider::Aws::DynamoDB,                            
-    CvClient::Provider::Aws::EC2Instance,
-    CvClient::Provider::Aws::ReservedEC2Instance,
-    CvClient::Provider::Aws::RdsInstance,
-    CvClient::Provider::Aws::ReservedRdsInstance,
-    CvClient::Provider::Aws::EcInstance,
-    CvClient::Provider::Aws::ReservedEcInstance,
-    CvClient::Provider::Aws::LoadBalancer,
-    CvClient::Provider::Aws::BlockDevice,
-    CvClient::Provider::Aws::Snapshot,
-    CvClient::Provider::Aws::Emr,
-    CvClient::Provider::Aws::CloudWatch::Ec2,
-    CvClient::Provider::Aws::CloudWatch::Rds,
-    CvClient::Provider::Aws::CloudWatch::Ec,
-    CvClient::Provider::Aws::CloudWatch::Elb,
-    CvClient::Provider::Aws::CloudWatch::Ebs
+    CvCollector::Provider::Aws::Billing,
+    CvCollector::Provider::Aws::BillingProgramatic,
+    CvCollector::Provider::Aws::DynamoDB,                            
+    CvCollector::Provider::Aws::EC2Instance,
+    CvCollector::Provider::Aws::ReservedEC2Instance,
+    CvCollector::Provider::Aws::RdsInstance,
+    CvCollector::Provider::Aws::ReservedRdsInstance,
+    CvCollector::Provider::Aws::EcInstance,
+    CvCollector::Provider::Aws::ReservedEcInstance,
+    CvCollector::Provider::Aws::LoadBalancer,
+    CvCollector::Provider::Aws::BlockDevice,
+    CvCollector::Provider::Aws::Snapshot,
+    CvCollector::Provider::Aws::Emr,
+    CvCollector::Provider::Aws::CloudWatch::Ec2,
+    CvCollector::Provider::Aws::CloudWatch::Rds,
+    CvCollector::Provider::Aws::CloudWatch::Ec,
+    CvCollector::Provider::Aws::CloudWatch::Elb,
+    CvCollector::Provider::Aws::CloudWatch::Ebs
 	]
   
   components.each do |c|
@@ -45,7 +45,7 @@ loop do
     obj.send
   end
 
-  CvClient::Provider::Aws::Base.save_sync
+  CvCollector::Provider::Aws::Base.save_sync
   
   sleep 60*60
 end

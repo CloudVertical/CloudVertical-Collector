@@ -4,7 +4,7 @@ require "bundler/setup"
 PROJECT_ROOT = File.expand_path("..", __FILE__)
 $:.unshift "#{PROJECT_ROOT}/lib"
 
-require "cv_client/version"
+require "cv_collector/version"
 require "rspec/core/rake_task"
 
 desc "Run all specs"
@@ -36,7 +36,7 @@ def assemble_distribution(target_dir=Dir.pwd)
   end
 end
 
-GEM_BLACKLIST = %w( bundler cv_client )
+GEM_BLACKLIST = %w( bundler cv_collector )
 
 def assemble_gems(target_dir=Dir.pwd)
   lines = %x{ bundle show }.strip.split("\n")
@@ -54,7 +54,7 @@ def assemble_gems(target_dir=Dir.pwd)
 end
 
 def beta?
-  CvClient::VERSION.to_s =~ /pre/
+  CvCollector::VERSION.to_s =~ /pre/
 end
 
 def clean(file)
@@ -62,8 +62,8 @@ def clean(file)
 end
 
 def distribution_files(type=nil)
-  require "cv_client/distribution"
-  base_files = CvClient::Distribution.files
+  require "cv_collector/distribution"
+  base_files = CvCollector::Distribution.files
   type_files = type ?
     Dir[File.expand_path("../dist/resources/#{type}/**/*", __FILE__)] :
     []
@@ -108,7 +108,7 @@ def s3_connect
   @s3_connected = true
 end
 
-def store(package_file, filename, bucket="assets.cv_client.com")
+def store(package_file, filename, bucket="assets.cv_collector.com")
   s3_connect
   puts "storing: #{filename}"
   AWS::S3::S3Object.store(filename, File.open(package_file), bucket, :access => :public_read)
@@ -123,8 +123,8 @@ def tempdir
 end
 
 def version
-  require "cv_client/version"
-  CvClient::VERSION
+  require "cv_collector/version"
+  CvCollector::VERSION
 end
 
 Dir[File.expand_path("../dist/**/*.rake", __FILE__)].each do |rake|

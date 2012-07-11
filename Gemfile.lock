@@ -7,7 +7,7 @@ GIT
 PATH
   remote: .
   specs:
-    cv_client (0.0.1)
+    cv_collector (0.0.1)
       aws-sdk (~> 1.5.5)
       faraday (= 0.8.1)
       faraday_middleware (= 0.8.7)
@@ -59,7 +59,7 @@ PLATFORMS
 DEPENDENCIES
   active_support
   aws-sdk (= 1.5.5)
-  cv_client!
+  cv_collector!
   daemons (= 1.1.4)
   faraday (= 0.8.1)
   faraday_middleware
