@@ -13,9 +13,9 @@ module CvCollector
 
             REGIONS.each do |region|
               self.perform_action do
-                rds = RightAws::RdsInterface.new(@access_key_id, @secret_access_key, :region => region)
+                rds = RightAws::RdsInterface.new(@access_key_id, @secret_access_key, :endpoint_url => "https://rds.#{region}.amazonaws.com")
                 instances = rds.describe_db_instances
-                cw = RightAws::AcwInterface.new(@access_key_id, @secret_access_key, :region => region)
+                cw = RightAws::AcwInterface.new(@access_key_id, @secret_access_key, :endpoint_url => "https://monitoring.#{region}.amazonaws.com")
                 instances.each do |instance|
                   MEASURE_NAME.each do |measure|
                     metrics = cw.get_metric_statistics({:namespace => "AWS/RDS", 
@@ -33,11 +33,10 @@ module CvCollector
                 end
                 instances
 
-              end
-                            
+              end              
             end
             
-            return perform_action
+            return true
             
           end
           

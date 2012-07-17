@@ -14,7 +14,7 @@ module CvCollector
               self.perform_action do
                 ec = RightAws::EcInterface.new(@access_key_id, @secret_access_key, :server => "elasticache.#{region}.amazonaws.com")
                 instances = ec.describe_cache_clusters
-                cw = RightAws::AcwInterface.new(@access_key_id, @secret_access_key, :region => region)
+                cw = RightAws::AcwInterface.new(@access_key_id, @secret_access_key, :endpoint_url => "https://monitoring.#{region}.amazonaws.com")
                 instances.each do |instance|                
                   cache_nodes = instance[:cache_nodes]
                   MEASURE_NAME.each do |measure|

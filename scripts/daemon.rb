@@ -15,9 +15,10 @@ require 'right_aws'
 
 CV_API_KEY = YAML::load(File.open("#{ENV["HOME"]}/.cvc/cv/credentials"))[:api_key]
 AWS_CREDENTIALS = YAML::load(File.open("#{ENV["HOME"]}/.cvc/aws/credentials"))
-API_URL = "https://resources.cloudvertical.com"
-loop do
+API_URL = "https://resource.cloudvertical.com"
 
+loop do
+  puts "\ncvc-daemon: Fetching data process... Please be patient - this may take several minutes.\n\n"
 	components = [
     CvCollector::Provider::Aws::Billing,
     CvCollector::Provider::Aws::BillingProgramatic,
@@ -46,6 +47,7 @@ loop do
   end
 
   CvCollector::Provider::Aws::Base.save_sync
-  
+  puts "\ncvc-daemon: Data collected. Next check in 1 hour."
+  puts "cvc-daemon: Idle..."
   sleep 60*60
 end

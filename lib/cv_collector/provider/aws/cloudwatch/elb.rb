@@ -12,9 +12,9 @@ module CvCollector
 
             REGIONS.each do |region|
               self.perform_action do
-                elb = RightAws::ElbInterface.new(@access_key_id, @secret_access_key, :region => region)            
+                elb = RightAws::ElbInterface.new(@access_key_id, @secret_access_key, :endpoint_url => "https://elasticloadbalancing.#{region}.amazonaws.com")            
                 balancers = elb.describe_load_balancers
-                cw = RightAws::AcwInterface.new(@access_key_id, @secret_access_key, :region => region)
+                cw = RightAws::AcwInterface.new(@access_key_id, @secret_access_key, :endpoint_url => "https://monitoring.#{region}.amazonaws.com")
                 balancers.each do |balancer|
                   MEASURE_NAME.each do |measure|
                     metrics = cw.get_metric_statistics({:namespace => 'AWS/ELB',

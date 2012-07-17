@@ -9,7 +9,7 @@ module CvCollector
         def fetch_data()
           REGIONS.each do |region|
             self.perform_action do
-              elb = RightAws::ElbInterface.new(@access_key_id, @secret_access_key, :region => region)
+              elb = RightAws::ElbInterface.new(@access_key_id, @secret_access_key, :endpoint_url => "https://elasticloadbalancing.#{region}.amazonaws.com")
               balancers = elb.describe_load_balancers
               balancers.each do |balancer|
                 @data << parse_data(balancer).merge('region' => region)

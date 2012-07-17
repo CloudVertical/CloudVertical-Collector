@@ -14,7 +14,7 @@ module CvCollector
               self.perform_action do
                 ec2 = RightAws::Ec2.new(@access_key_id, @secret_access_key, :region => region)
                 instances = ec2.describe_instances
-                cw = RightAws::AcwInterface.new(@access_key_id, @secret_access_key, :region => region)
+                cw = RightAws::AcwInterface.new(@access_key_id, @secret_access_key, :endpoint_url => "https://monitoring.#{region}.amazonaws.com")
                 instances.each do |instance|
                   MEASURE_NAMES.each do |measure_name|
                     metrics = cw.get_metric_statistics({:namespace => "AWS/EC2", 

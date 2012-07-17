@@ -40,11 +40,7 @@ module CvCollector
           
           def set_time_range
             @now = Time.now.utc            
-            @start_time, @end_time = if new?
-              [Time.now.change({:day => 1}).iso8601, @now.iso8601]
-            else
-              [(@now - 3600).iso8601, @now.iso8601]
-            end            
+            @start_time, @end_time = [(@now - 3600).iso8601, @now.iso8601]
           end
 
           def send
